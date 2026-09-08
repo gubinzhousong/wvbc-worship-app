@@ -37,4 +37,11 @@ textarea:focus { border-color: #47785f; box-shadow: 0 0 0 3px rgba(71,120,95,.14
 .history-item:hover { border-color: #91ae98; background: #f2f7f0; }
 .history-item strong { font-size: .92rem; }.history-item span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }.history-item small { color: #829087; }
 .empty-history { margin: 18px 0 3px; color: #758277; }
+.poster-section { display: grid; gap: 12px; border-top: 1px solid #d9d6c8; padding-top: 16px; min-width: 0; }
+.action-row .poster-button, .poster-download { color: white; background: #174575; }
+.poster-preview { min-width: 0; }
+.poster-preview h3 { margin: 0; font-size: 1rem; }
+.poster-preview img { display: block; width: 100%; height: auto; margin-top: 14px; border: 1px solid #d5e2ef; }
+.poster-download { display: inline-flex; align-items: center; min-height: 44px; padding: 10px 16px; border-radius: 8px; text-decoration: none; font-weight: 700; }
+.poster-error { color: #962f27; margin: 0; }
 @media (max-width: 780px) { .app-shell { padding: 26px 12px 42px; }.tool-grid { grid-template-columns: 1fr; }.raw-editor, .output-editor { min-height: 350px; }.history-list { grid-template-columns: 1fr; }.panel, .history-panel { padding: 15px; } }
