@@ -32,6 +32,16 @@ test("explicit year wins; Chinese and ISO dates work", () => {
   assert.equal(getPosterTheme("3月28日", 2027).id, "easter");
 });
 
+test("October Thanksgiving theme covers the month without changing adjacent months", () => {
+  for (const year of [2026, 2027]) {
+    for (const date of ["10月1日", "10月11号", "十月三十一日"]) {
+      assert.equal(getPosterTheme(date, year).id, "thanksgiving");
+    }
+    assert.equal(getPosterTheme("9月30日", year).id, "ordinary");
+    assert.equal(getPosterTheme("11月1日", year).id, "ordinary");
+  }
+});
+
 test("invalid dates do not silently select a theme", () => {
   for (const date of ["X月X日", "2月30日", "13月1日", "0月1日", "2026年2月29日"]) {
     assert.throws(() => getPosterTheme(date, 2026));

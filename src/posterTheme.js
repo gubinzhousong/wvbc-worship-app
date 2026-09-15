@@ -7,6 +7,7 @@ const palettes = {
   easter: ["复活期 · 金色", "#654b18", "#b0882e", "#fffdf5", "#70551f", "#503b15"],
   pentecost: ["圣灵降临节 · 红色", "#782b2b", "#be9442", "#fffaf6", "#873333", "#5c2020"],
   christmas: ["圣诞期 · 红金色", "#702b35", "#bd963f", "#fffdf5", "#7b303c", "#54202a"],
+  thanksgiving: ["感恩节主题 · 枫叶红", "#792e25", "#cb943f", "#fffaf2", "#c44732", "#a83227"],
 };
 const DAY = 86400000;
 
@@ -42,6 +43,7 @@ export function getPosterTheme(schedule, fallbackYear = new Date().getFullYear()
   let id = "ordinary";
   if (date >= christmas || (month === 1 && day <= 5)) id = "christmas";
   else if (date >= advent) id = "advent";
+  else if (month === 10) id = "thanksgiving";
   else if (date === easter + 49 * DAY) id = "pentecost";
   else if (date >= easter && date < easter + 49 * DAY) id = "easter";
   else if (date >= easter - 46 * DAY && date < easter) id = "lent";

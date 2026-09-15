@@ -42,6 +42,7 @@
 - 圣灵降临节：复活节后 49 天，红色。
 - 将临期：11 月 27 日起第一个星期日至 12 月 24 日，紫色。
 - 圣诞期：12 月 25 日至次年 1 月 5 日，红金色。
+- 感恩节主题：10 月 1 日至 31 日，枫叶红，搭配暖金色边框与象牙白背景；这是教会自定的整月海报主题。
 - 其他日期：教会原有深蓝色主题，搭配金色边框与米白背景。
 
 这是本 App 的简化节期设计配色，圣诞红金色为海报设计选择，不代表 WVBC 正式礼仪规范。节期参考：[Church of England 日历](https://www.churchofengland.org/prayer-and-worship/worship-texts-and-resources/common-worship/churchs-year/calendar)。颜色定义位于 `src/posterTheme.js`。
