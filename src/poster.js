@@ -1,3 +1,5 @@
+import { getPosterTheme } from "./posterTheme.js";
+
 // The editable announcement is the source of truth, including manual corrections.
 export function readPosterData(output) {
   const lines = output.replace(/\r/g, "").split("\n");
@@ -89,15 +91,16 @@ export function referenceSermonLines(text) {
   return text.replace(/^(.+?\s+[-－–]\s*\d+)\s+(.+)$/, "$1\n$2");
 }
 
-export async function createPoster(output) {
+export async function createPoster(output, year) {
   const data = readPosterData(output);
+  const theme = getPosterTheme(data.schedule, year);
   await document.fonts.ready;
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
   if (!ctx) throw new Error("此浏览器无法生成图片，请使用支持 Canvas 的浏览器。");
   // Fixed layout measured from the supplied 1024 × 1536 official reference.
   const font = '"Times New Roman", "Noto Serif TC", "PMingLiU", "Songti TC", "SimSun", serif';
-  const navy = "#07285c", gold = "#d89a16", cream = "#fffdf5";
+  const { ink: navy, accent: gold, background: cream } = theme;
   const width = 1024, cardX = 45, cardWidth = 936, railWidth = 113;
   const textX = 197, right = 953;
   const sections = [];
@@ -193,13 +196,13 @@ export async function createPoster(output) {
     ctx.save();
     ctx.beginPath(); ctx.roundRect(cardX, top, cardWidth, block.height, 13); ctx.clip();
     const rail = ctx.createLinearGradient(cardX, top, cardX + railWidth, top + block.height);
-    rail.addColorStop(0, "#102f50"); rail.addColorStop(1, "#0c2c4f");
+    rail.addColorStop(0, theme.railStart); rail.addColorStop(1, theme.railEnd);
     ctx.fillStyle = rail; ctx.fillRect(cardX, top, railWidth, block.height);
     ctx.restore();
     ctx.strokeStyle = gold; ctx.lineWidth = 1.4;
     ctx.beginPath(); ctx.roundRect(cardX, top, cardWidth, block.height, 13); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(cardX + railWidth, top); ctx.lineTo(cardX + railWidth, top + block.height); ctx.stroke();
-    drawText(block.number, 71, top + 31, 64, false, "#f1c557");
+    drawText(block.number, 71, top + 31, 64, false, theme.number);
     block.title.forEach((line, i) => drawText(line, textX, top + 18 + i * 62, 44, true));
     for (const row of block.rows) {
       if (row.sermon) drawText("證道題目：", textX, top + row.y, 32);
@@ -208,5 +211,5 @@ export async function createPoster(output) {
   }
   const blob = await new Promise((resolve, reject) => canvas.toBlob((blob) => blob ? resolve(blob) : reject(new Error("PNG 生成失败，请重试。")), "image/png"));
   const filename = `WVBC-主日崇拜-${data.schedule.replace(/[\\/:*?"<>|]/g, "-").slice(0, 70)}.png`;
-  return { blob, filename };
+  return { blob, filename, theme };
 }
